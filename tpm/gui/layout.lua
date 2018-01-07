@@ -41,7 +41,13 @@ function tpm.gui.showButton(player, name)
   tpm.debug("Function call: showButton")
   
   tpm.gui.removeButtons(player)
-  player.gui.top.add{ type = "sprite-button", name = "tpm_mainbutton_" .. name, caption = "TPM", sprite = "tpm_button_sprite_" .. name, style = "tpm_button" }
+  player.gui.top.add{
+    type = "sprite-button",
+    name = "tpm_mainbutton_" .. name,
+    caption = "TPM",
+    sprite = "tpm_button_sprite_" .. name, 
+    style = "tpm_button"
+  }
 end
 
 --[[ Shows the peace button ]]--

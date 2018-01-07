@@ -1,6 +1,6 @@
 data.raw["gui-style"].default["tpm_button"] = {
   type = "button_style",
-  parent = "button_style",
+  parent = "button",
   width = 32,
   height = 32,
   top_padding = 0,
