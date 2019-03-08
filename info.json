@@ -7,6 +7,6 @@
     "homepage": "https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode",
     "description": "Allows you to toggle peaceful mode at will",
     "license": "Free for all",
-    "factorio_version": "0.16",
+    "factorio_version": "0.17",
     "dependencies": []
 }
