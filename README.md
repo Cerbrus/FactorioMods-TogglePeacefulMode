@@ -1,6 +1,6 @@
 # Toggle Peaceful Mode
 
-This [Factorio](http://www.factorio.com/) mod allows you to toggle "[Peaceful mode](https://wiki.factorio.com/index.php?title=World_generator&redirect=no#Peaceful_mode)" at will.
+This [Factorio](https://factorio.com/) mod allows you to toggle "[Peaceful mode](https://wiki.factorio.com/index.php?title=World_generator#Enemy)" at will.
 
 Normally, toggling peaceful mode through a lua command disables achievements for the save:  
 `/c game.player.surface.peaceful_mode = true / false`  
