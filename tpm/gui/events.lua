@@ -45,9 +45,9 @@ function tpm.reset_biters(event)
   tpm.debug("Function call: reset_biters")
 
   --[[ Some mods introduce biter factions. Kill'm! ]]--
-  for k, force in pairs(game.forces) do
+  for _, force in pairs(game.forces) do
     if force.name:find("biter_faction_") == 1 then
-      game.forces[force.name].kill_all_units()
+      force.kill_all_units()
     end
   end
 
