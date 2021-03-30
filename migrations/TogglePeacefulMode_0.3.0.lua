@@ -1,6 +1,4 @@
-require "tpm.core"
-
-local peaceful = tpm.is_peaceful()
+local peaceful = is_peaceful()
 
 for _, player in pairs(game.players) do
   local peaceButton = player.gui.top["tpm_mainbutton_peace"]
@@ -9,5 +7,5 @@ for _, player in pairs(game.players) do
   local warButton = player.gui.top["tpm_mainbutton_war"]
   if warButton then warButton.destroy() end
   
-	tpm.gui.init(player, peaceful)
+	add_button(player, peaceful)
 end
