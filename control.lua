@@ -21,14 +21,14 @@ end
 
 script.on_event(defines.events.on_gui_click, function(event)
   if (event.element.name == "tpm-button") then
-    local previousState = is_peaceful()
+    local peaceful = is_peaceful()
     local player = game.players[event.player_index]
     
-		mod_gui.get_button_flow(game.players[event.player_index])["tpm-button"].sprite = 
-		  previousState and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
+    mod_gui.get_button_flow(game.players[event.player_index])["tpm-button"].sprite = 
+      peaceful and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
 
     for _,s in pairs(game.surfaces) do
-      s.peaceful_mode = not previousState;
+      s.peaceful_mode = not peaceful;
     end
     
     for k, force in pairs(game.forces) do
