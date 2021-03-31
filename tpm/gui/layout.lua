@@ -4,7 +4,8 @@ if not tpm.gui then error("Dependency missing: tpm.gui") end
 
 --[[ Init Gui ]]--
 function tpm.gui.init(player, peaceful)
-  local mod_gui_button = mod_gui.get_button_flow(player).add{
+  local flow = mod_gui.get_button_flow(player)
+  return flow["tpm-button"] or flow.add{
     type = "sprite-button",
     name = "tpm-button",
     style = "mod_gui_button",
