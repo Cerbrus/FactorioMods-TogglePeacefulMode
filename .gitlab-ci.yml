@@ -1,0 +1,9 @@
+image: alpine
+
+before_script: 
+
+build_job:
+  retry: 1
+  script: 
+  - make -j zip
+  stage: build
