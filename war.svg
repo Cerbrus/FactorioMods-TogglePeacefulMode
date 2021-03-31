@@ -5,7 +5,7 @@
     * {
       fill: transparent;
       stroke: green;
-      stroke-width: 12.5%;
+      stroke-width: 1;
     }
     .war {
       stroke: red;
