@@ -11,7 +11,8 @@ function is_peaceful()
 end
 
 function add_button(player, peaceful)
-  mod_gui.get_button_flow(player).add{
+  local flow = mod_gui.get_button_flow(player)
+  return flow["tpm-button"] or flow.add{
     type = "sprite-button",
     name = "tpm-button",
     style = "mod_gui_button",
