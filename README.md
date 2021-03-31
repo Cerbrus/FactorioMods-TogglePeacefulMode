@@ -16,10 +16,40 @@ Note: The toggle will kill all (mobile) biters, as their "peacefulness" is set w
 # How to Use
 
 1. Start Factorio.
-2. Open the "Mod" menu.
-3. Search for the "Toggle Peaceful Mode" mod.
-4. Install the mod.
-5. Use the button on the top-left to toggle peaceful mode at will.
+1. Open the "Mod" menu.
+1. Search for the "Toggle Peaceful Mode" mod.
+1. Install the mod.
+1. Use the button on the top-left to toggle peaceful mode at will.
+
+# Compiling
+
+In addition to a POSIX system, you must have the following commands available:
+
+* jq
+* make
+* optipng
+* rsvg-convert
+* zip
+
+To compile, just run:
+
+```
+make -j zip
+```
+
+This will output the mod's zip file in the source's root directory. The mod's version number will be pulled from info.json. Alternatively you may run:
+
+```
+make -j install
+```
+
+... and the mod will be automatically inserted into your Factorio's (default) mod folder.
+
+```
+make clean
+```
+
+You know what this does! :P
 
 # Notes
 
