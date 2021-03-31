@@ -10,5 +10,5 @@ build_job:
   stage: build
   interruptible: true
   artifacts:
-  paths:
-    - TogglePeacefulMode
+    paths:
+      - TogglePeacefulMode
