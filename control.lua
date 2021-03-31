@@ -20,28 +20,34 @@ function add_button(player, peaceful)
   }
 end
 
+function toggle_peacefulness()
+  local peaceful = is_peaceful()
+  
+  for _, p in pairs(game.players) do
+    mod_gui.get_button_flow(p)["tpm-button"].sprite = 
+      peaceful and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
+  end
+
+  for _, s in pairs(game.surfaces) do
+    s.peaceful_mode = not peaceful;
+  end
+  
+  for _, f in pairs(game.forces) do
+    if f.name:find("biter_faction_") == 1 then
+      f.kill_all_units()
+    end
+  end
+  
+  game.forces["enemy"].kill_all_units()
+end
+
 script.on_event(defines.events.on_gui_click, function(event)
   if event.element.name == "tpm-button" then
-    local peaceful = is_peaceful()
-    
-    for _, p in pairs(game.players) do
-      mod_gui.get_button_flow(p)["tpm-button"].sprite = 
-        peaceful and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
-    end
-
-    for _, s in pairs(game.surfaces) do
-      s.peaceful_mode = not peaceful;
-    end
-    
-    for _, f in pairs(game.forces) do
-      if f.name:find("biter_faction_") == 1 then
-        f.kill_all_units()
-      end
-    end
-    
-    game.forces["enemy"].kill_all_units()
+    toggle_peacefulness()
   end
 end)
+
+script.on_event("tpm_key_toggle", toggle_peacefulness)
 
 script.on_init(function()
   local peaceful = is_peaceful()

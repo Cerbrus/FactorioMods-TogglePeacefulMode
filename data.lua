@@ -10,5 +10,10 @@ data:extend{
     name = "tpm_button_sprite_war",
     filename = "__TogglePeacefulMode__/war.png",
     size = {64, 64},
+  },
+  {
+    type = "custom-input",
+    name = "tpm_key_toggle",
+    key_sequence = "",
   }
 };
