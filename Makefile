@@ -6,8 +6,6 @@ optipng = optipng -strip all -o7 -zm1-9 $@
 
 .PHONY: clean zip install
 
-all: thumbnail.png war.png
-
 clean:
 	rm -rf $(name) *.png *.zip
 
