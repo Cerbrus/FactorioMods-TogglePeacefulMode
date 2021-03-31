@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
+  <style>
+    * {
+      fill: transparent;
+      stroke: green;
+      stroke-width: 12.5%;
+    }
+    .war {
+      stroke: red;
+    }
+  </style>
+  <clipPath id="a">
+    <circle id="b" cx="4" cy="4" r="3.5"/>
+  </clipPath>
+  <use href="#b"/>
+  <path clip-path="url(#a)" d="M4 0V8M0 8L4 4L8 8"/>
+  <path class="war" d="M0 0l8 8M0 8L8 0"/>
+</svg>
