@@ -21,7 +21,7 @@ function add_button(player, peaceful)
 end
 
 script.on_event(defines.events.on_gui_click, function(event)
-  if (event.element.name == "tpm-button") then
+  if event.element.name == "tpm-button" then
     local peaceful = is_peaceful()
     
     for _, p in pairs(game.players) do
