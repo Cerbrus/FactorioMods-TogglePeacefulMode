@@ -4,8 +4,7 @@ before_script:
   - apk add jq librsvg make optipng zip
 
 build_job:
-  retry: 0
-  script: make -j
+  script: make -j zip
   artifacts:
     paths:
-    - TogglePeacefulMode/
+    - *.zip
