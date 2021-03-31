@@ -1,12 +1,12 @@
 {
   "name": "TogglePeacefulMode",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "title": "Toggle Peaceful Mode",
   "author": "Cerbrus",
   "contact": "https://github.com/Higgs1",
   "homepage": "https://github.com/Higgs1/TogglePeacefulMode",
   "description": "Allows you to toggle peaceful mode at will",
-  "license": "Free for all",
+  "license": "GNU AGPLv3",
   "factorio_version": "1.1",
   "dependencies": []
 }

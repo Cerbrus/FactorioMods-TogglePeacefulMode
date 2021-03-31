@@ -1,17 +1,17 @@
 mod_gui = require("mod-gui")
 
 function is_peaceful()
-  local is_peaceful = true;
-
   for _, s in pairs(game.surfaces) do
-    is_peaceful = is_peaceful and s.peaceful_mode
+    if not s.peaceful_mode then
+      return
+    end
   end
 
-  return is_peaceful;
+  return true;
 end
 
 function add_button(player, peaceful)
-  local mod_gui_button = mod_gui.get_button_flow(player).add{
+  mod_gui.get_button_flow(player).add{
     type = "sprite-button",
     name = "tpm-button",
     style = "mod_gui_button",
@@ -22,20 +22,22 @@ end
 script.on_event(defines.events.on_gui_click, function(event)
   if (event.element.name == "tpm-button") then
     local peaceful = is_peaceful()
-    local player = game.players[event.player_index]
     
-    mod_gui.get_button_flow(game.players[event.player_index])["tpm-button"].sprite = 
-      peaceful and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
+    for _, p in pairs(game.players) do
+      mod_gui.get_button_flow(p)["tpm-button"].sprite = 
+        peaceful and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
+    end
 
-    for _,s in pairs(game.surfaces) do
+    for _, s in pairs(game.surfaces) do
       s.peaceful_mode = not peaceful;
     end
     
-    for k, force in pairs(game.forces) do
-      if force.name:find("biter_faction_") == 1 then
-        force.kill_all_units()
+    for _, f in pairs(game.forces) do
+      if f.name:find("biter_faction_") == 1 then
+        f.kill_all_units()
       end
     end
+    
     game.forces["enemy"].kill_all_units()
   end
 end)
