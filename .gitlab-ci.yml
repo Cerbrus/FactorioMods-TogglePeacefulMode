@@ -1,6 +1,7 @@
 image: alpine
 
-before_script: apk add jq librsvg make optipng zip
+before_script:
+  - apk add jq librsvg make optipng zip
 
 build_job:
   script: make -j zip
