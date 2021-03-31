@@ -21,7 +21,7 @@ war.png: war.svg
 
 TogglePeacefulMode_$(ver).zip: *.json here *.lua mig*/*
 	mkdir $(name)
-	cp --reflink=auto --parents -t $(name) $^
+	cp --reflink=auto --parents $^ $(name)
 	find $(name) -exec touch -amd @0 {} +
 	zip -r9 $@ $(name)
 	$(RM) -r $(name)
