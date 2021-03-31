@@ -15,11 +15,19 @@ Note: The toggle will kill all (mobile) biters, as their "peacefulness" is set w
 
 # How to Use
 
-1. Start Factorio.
-1. Open the "Mod" menu.
-1. Search for the "Toggle Peaceful Mode" mod.
-1. Install the mod.
-1. Use the button on the top-left to toggle peaceful mode at will.
+Choose one of the following installation methods:
+
+* Install using Factorio's built-in mod manager
+    * From the main menu click on "Mods", then on the "Install" tab
+    * Click on 🔎 button, search for (or just magically find), and select "Toggle Peaceful Mode"
+    * Click on the "Install" button, then the green "Confirm" button
+    * Factorio will restart with the new mod installed. Have fun :D
+* Manually, by [downloading the mod zip file from GitLab](https://gitlab.com/lexxyfox/TogglePeacefulMode/-/jobs/1144690213/artifacts/browse) and placing it in your mods folder
+* Using the command line:
+```
+curl -L https://gitlab.com/lexxyfox/TogglePeacefulMode/-/jobs/artifacts/foxxo/download?job=build_job | bsdtar -xvf- -C ~/.factorio/mods
+```
+* By compiling from source! (described below)
 
 # Compiling
 
