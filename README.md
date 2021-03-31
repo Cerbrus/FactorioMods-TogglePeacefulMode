@@ -31,19 +31,31 @@ In addition to a POSIX system, you must have the following commands available:
 * rsvg-convert
 * zip
 
-To compile, just run:
+Download using git perferably (svn also works):
+
+```
+git clone https://github.com/Higgs1/TogglePeacefulMode
+```
+
+If you've cloned this repo into your Factorio mods folder, you can simply run the following command in the root source folder:
+
+```
+make -j
+```
+
+All done! Start up Factorio and have fun. If instead you want a zip file produced, run:
 
 ```
 make -j zip
 ```
 
-This will output the mod's zip file in the source's root directory. The mod's version number will be pulled from info.json. Alternatively you may run:
+This will output the mod's zip file in the root source directory. The mod's version number will be pulled from info.json. Alternatively you may run:
 
 ```
 make -j install
 ```
 
-... and the mod will be automatically inserted into your Factorio's (default) mod folder.
+... and the resulting zip file will be automatically inserted into your Factorio's mod folder (~/.factorio/mods). Useful if you've cloned the repo outside of your mods folder.
 
 ```
 make clean
