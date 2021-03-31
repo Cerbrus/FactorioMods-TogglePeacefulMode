@@ -5,10 +5,7 @@ before_script:
 
 build_job:
   retry: 0
-  script: 
-  - make -j
-  stage: build
-  interruptible: true
+  script: make -j
   artifacts:
     paths:
-      - TogglePeacefulMode
+    - TogglePeacefulMode/
