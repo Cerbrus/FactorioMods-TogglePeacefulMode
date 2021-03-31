@@ -19,9 +19,9 @@ war.png: war.svg
 	$(convert)
 	$(optipng)
 
-TogglePeacefulMode_$(ver).zip: *.json thumbnail.png war.png *.lua mig*/*
+TogglePeacefulMode_$(ver).zip: *.json *.lua thumbnail.png war.png migrations locale
 	mkdir $(name)
-	cp --reflink=auto --parents $^ $(name)
+	cp --reflink=auto --parents -r $^ $(name)
 	find $(name) -exec touch -amd @0 {} +
 	zip -r9 $@ $(name)
 	$(RM) -r $(name)
