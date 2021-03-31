@@ -22,7 +22,7 @@ Choose one of the following installation methods:
     * Click on 🔎 button, search for (or just magically find), and select "Toggle Peaceful Mode"
     * Click on the "Install" button, then the green "Confirm" button
     * Factorio will restart with the new mod installed. Have fun :D
-* Manually, by [downloading the mod zip file from GitLab](https://gitlab.com/lexxyfox/TogglePeacefulMode/-/jobs/1144690213/artifacts/browse) and placing it in your mods folder
+* Manually, by [downloading the mod zip file from GitLab](https://gitlab.com/lexxyfox/TogglePeacefulMode/-/jobs/artifacts/foxxo/browse?job=build_job) and placing it in your mods folder
 * Using the command line:
 ```
 curl -L https://gitlab.com/lexxyfox/TogglePeacefulMode/-/jobs/artifacts/foxxo/download?job=build_job | bsdtar -xvf- -C ~/.factorio/mods
