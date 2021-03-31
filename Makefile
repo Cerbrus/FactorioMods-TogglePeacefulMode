@@ -19,7 +19,7 @@ war.png: war.svg
 	$(convert)
 	$(optipng)
 
-TogglePeacefulMode_$(ver).zip: *.json here *.lua mig*/*
+TogglePeacefulMode_$(ver).zip: *.json thumbnail.png war.png *.lua mig*/*
 	mkdir $(name)
 	cp --reflink=auto --parents $^ $(name)
 	find $(name) -exec touch -amd @0 {} +
