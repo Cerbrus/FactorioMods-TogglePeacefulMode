@@ -1,9 +1,14 @@
 image: alpine
 
 before_script: 
+  - apk add jq librsvg make optipng zip
 
 build_job:
-  retry: 1
+  retry: 0
   script: 
-  - make -j zip
+  - make -j
   stage: build
+  interruptible: true
+  artifacts:
+  paths:
+    - TogglePeacefulMode
