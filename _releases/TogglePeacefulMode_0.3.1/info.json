@@ -1,0 +1,12 @@
+{
+    "name": "TogglePeacefulMode",
+    "version": "0.3.1",
+    "title": "Toggle Peaceful Mode",
+    "author": "Cerbrus",
+    "contact": "https://github.com/Cerbrus",
+    "homepage": "https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode",
+    "description": "Allows you to toggle peaceful mode at will",
+    "license": "Free for all",
+    "factorio_version": "1.1",
+    "dependencies": []
+}
