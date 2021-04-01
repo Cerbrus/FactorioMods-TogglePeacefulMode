@@ -1,12 +1,12 @@
 {
   "name": "TogglePeacefulMode",
-  "version": "0.3.3",
+  "version": "0.3.2",
   "title": "Toggle Peaceful Mode",
-  "author": "LexxyFox, Cerbrus",
-  "contact": "https://github.com/Higgs1",
-  "homepage": "https://github.com/Higgs1/TogglePeacefulMode",
+  "author": "Cerbrus",
+  "contact": "https://github.com/Cerbrus",
+  "homepage": "https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode",
   "description": "Allows you to toggle peaceful mode at will",
-  "license": "GNU AGPLv3",
+  "license": "Free for all",
   "factorio_version": "1.1",
   "dependencies": []
 }
