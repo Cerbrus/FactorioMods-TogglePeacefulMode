@@ -19,14 +19,14 @@ war.png: war.svg
 	$(convert)
 	$(optipng)
 
-TogglePeacefulMode_$(ver).zip: *.json *.lua thumbnail.png war.png migrations locale
+$(name)_$(ver).zip: *.json *.lua thumbnail.png war.png migrations locale
 	mkdir $(name)
 	cp --reflink=auto --parents -r $^ $(name)
 	find $(name) -exec touch -amd @0 {} +
 	zip -r9 $@ $(name)
 	$(RM) -r $(name)
 
-zip: TogglePeacefulMode_$(ver).zip
+zip: $(name)_$(ver).zip
 
 install: zip
-	cp TogglePeacefulMode_$(ver).zip ~/.factorio/mods
+	cp $(name)_$(ver).zip ~/.factorio/mods
