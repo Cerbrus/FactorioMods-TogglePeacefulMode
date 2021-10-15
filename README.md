@@ -54,7 +54,7 @@ make -j
 All done! Start up Factorio and have fun. If instead you want a zip file produced, run:
 
 ```
-make -j zip
+make -j dist
 ```
 
 This will output the mod's zip file in the root source directory. The mod's version number will be pulled from info.json. Alternatively you may run:
@@ -66,7 +66,7 @@ make -j install
 ... and the resulting zip file will be automatically inserted into your Factorio's mod folder (~/.factorio/mods). Useful if you've cloned the repo outside of your mods folder.
 
 ```
-make clean
+make -j clean
 ```
 
 You know what this does! :P

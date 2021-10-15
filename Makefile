@@ -26,7 +26,7 @@ $(name)_$(ver).zip: *.json *.lua thumbnail.png war.png migrations locale
 	zip -r9 $@ $(name)
 	$(RM) -r $(name)
 
-zip: $(name)_$(ver).zip
+dist: $(name)_$(ver).zip
 
 install: zip
 	cp $(name)_$(ver).zip ~/.factorio/mods
