@@ -23,10 +23,10 @@ $(name)_$(ver).zip: *.json *.lua thumbnail.png war.png migrations locale
 	mkdir $(name)
 	cp --reflink=auto --parents -r $^ $(name)
 	find $(name) -exec touch -amd @0 {} +
-	zip -r9 $@ $(name)
+	find $(name) -type f | zip -@9 $(name)
 	$(RM) -r $(name)
 
 dist: $(name)_$(ver).zip
 
-install: zip
+install: dist
 	cp $(name)_$(ver).zip ~/.factorio/mods
