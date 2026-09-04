@@ -48,7 +48,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build zip
         id: build
-        run: echo "zip=$(scripts/package.sh)" >> "$GITHUB_OUTPUT"
+        run: |
+          zip="$(bash scripts/package.sh)"
+          echo "zip=$zip" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         with:
           name: mod-zip
