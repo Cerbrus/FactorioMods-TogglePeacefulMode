@@ -1,0 +1,83 @@
+name: Release
+
+# Releasing a new version:
+#   1. Bump "version" in info.json and add a matching "Version: x.y.z" block to changelog.txt.
+#   2. Commit, then tag it:  git tag vX.Y.Z && git push origin vX.Y.Z
+#   3. This workflow packages the mod, creates a GitHub Release with the changelog
+#      section as notes, and uploads the zip to the Factorio mod portal.
+#
+# Requires the repository secret FACTORIO_API_KEY (factorio.com/profile, usage "ModPortal: Upload Mods").
+# Without it the portal upload step is skipped with a warning.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify tag matches info.json
+        id: meta
+        run: |
+          name="$(jq -r .name info.json)"
+          version="$(jq -r .version info.json)"
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$version" != "$tag" ]; then
+            echo "::error::tag v$tag does not match info.json version $version"; exit 1
+          fi
+          grep -qx "Version: $version" changelog.txt \
+            || { echo "::error file=changelog.txt::no 'Version: $version' entry"; exit 1; }
+          {
+            echo "name=$name"
+            echo "version=$version"
+            echo "factorio_version=$(jq -r .factorio_version info.json)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Package
+        id: build
+        run: echo "zip=$(scripts/package.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Extract release notes from changelog.txt
+        run: |
+          awk -v v="${{ steps.meta.outputs.version }}" '
+            /^-{99}$/      { if (found) exit; next }
+            /^Version: /   { found = ($2 == v); next }
+            found && /^Date: / { next }
+            found          { print }
+          ' changelog.txt \
+          | sed -E 's/^  ([^ ].*):$/### \1/; s/^    - /- /; s/^      /  /' \
+          > dist/release-notes.md
+          printf '\n_For Factorio %s._\n' "${{ steps.meta.outputs.factorio_version }}" >> dist/release-notes.md
+          cat dist/release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "${{ steps.build.outputs.zip }}" \
+            --title "${{ steps.meta.outputs.name }} ${{ steps.meta.outputs.version }}" \
+            --notes-file dist/release-notes.md
+
+      - name: Upload to Factorio mod portal
+        env:
+          FACTORIO_API_KEY: ${{ secrets.FACTORIO_API_KEY }}
+          MOD_NAME: ${{ steps.meta.outputs.name }}
+          ZIP: ${{ steps.build.outputs.zip }}
+        run: |
+          if [ -z "$FACTORIO_API_KEY" ]; then
+            echo "::warning::FACTORIO_API_KEY secret not set; skipping mod portal upload"
+            exit 0
+          fi
+          upload_url="$(curl -sSf -X POST \
+            -H "Authorization: Bearer $FACTORIO_API_KEY" \
+            -F "mod=$MOD_NAME" \
+            https://mods.factorio.com/api/v2/mods/releases/init_upload \
+            | jq -er .upload_url)"
+          curl -sSf -X POST -F "file=@$ZIP" "$upload_url" | jq .
+          echo "Uploaded $ZIP to https://mods.factorio.com/mod/$MOD_NAME"
