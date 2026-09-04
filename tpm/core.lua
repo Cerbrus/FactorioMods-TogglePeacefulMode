@@ -20,7 +20,10 @@ end)
 --[[ Planet surfaces and space platforms are only created when first visited.
      Apply the stored state so they don't fall back to the map-gen default. ]]--
 script.on_event(defines.events.on_surface_created, function(event)
-  game.surfaces[event.surface_index].peaceful_mode = tpm.is_peaceful()
+  local surface = game.get_surface(event.surface_index)
+  if surface then
+    surface.peaceful_mode = tpm.is_peaceful()
+  end
 end)
 
 --[[ When a player joins ]]--
