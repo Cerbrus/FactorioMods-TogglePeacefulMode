@@ -16,7 +16,7 @@ The mod shouldn't corrupt your save, but as always, back-up first.
 
 Note: The toggle will kill all (mobile) biters, spitters and Gleba pentapods, as their "peacefulness" is set when they spawn. They respawn from their spawners with the new setting.
 
-Demolishers on Vulcanus are **never** killed by this mod: they do not respawn, so killing them would remove them from the planet for good. Peaceful mode is applied to every surface, including planets you visit after toggling, so demolishers on a planet you land on later spawn with the current setting.
+Demolishers on Vulcanus are **never** killed by this mod: they do not respawn, so killing them would remove them from the planet for good. They don't need to be: demolishers follow the surface setting live. In peaceful mode they ignore new buildings in their territory; switch back and they attack them again. The one exception is a demolisher that is already charging a building when you toggle: it finishes that attack first.
 
 # How to Use
 
