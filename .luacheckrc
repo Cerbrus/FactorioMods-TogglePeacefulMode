@@ -6,7 +6,6 @@ max_line_length = 120
 codes = true
 
 exclude_files = {
-  "_releases/",
   "build/",
   "dist/",
 }
@@ -28,8 +27,4 @@ globals = {
   "storage",   -- Factorio's persistent mod table (2.0)
   "settings",  -- settings.global[...] is written to in tpm/state.lua
   "tpm",       -- mod namespace, created in tpm/core.lua
-}
-
-files["migrations/*.lua"] = {
-  -- migrations run as chunks with the same environment as control.lua
 }

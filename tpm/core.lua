@@ -1,6 +1,5 @@
-tpm = { showDebug = false }
+tpm = {}
 
-require "tpm.logger"
 require "tpm.state"
 require "tpm.shortcut"
 
