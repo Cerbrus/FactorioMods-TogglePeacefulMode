@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.5.1
+Date: 2026-09-04
+  Changes:
+    - Removed leftover debug logging code.
+    - The README is no longer included in the mod zip; the mod portal page has the up-to-date text.
+---------------------------------------------------------------------------------------------------
 Version: 0.5.0
 Date: 2026-09-04
   Gui:
