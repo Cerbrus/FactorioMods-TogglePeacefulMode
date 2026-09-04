@@ -1,15 +1,18 @@
 # Toggle Peaceful Mode
 
+[![CI](https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode/actions/workflows/ci.yml/badge.svg)](https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode/actions/workflows/ci.yml)
+[![Mod portal](https://img.shields.io/badge/mod%20portal-TogglePeacefulMode-orange)](https://mods.factorio.com/mod/TogglePeacefulMode)
+
 This [Factorio](https://factorio.com/) mod allows you to toggle "[Peaceful mode](https://wiki.factorio.com/index.php?title=World_generator#Enemy)" at will.
 
 Normally, toggling peaceful mode through a lua command disables achievements for the save:
 `/c game.player.surface.peaceful_mode = true / false`
-This mod lets you circumvents that.
+This mod lets you circumvent that.
 
 If you disable the mod, the "peaceful" setting will still be what it was last set to. This allows you to disable "peaceful" mode while keeping steam achievements enabled for non-modded games.
 
 The mod shouldn't corrupt your save, but as always, back-up first.
-<sup><sub>(The author of this mod can 't be held responsible for corrupted saves ;-) )</sub></sup>
+<sup><sub>(The author of this mod can't be held responsible for corrupted saves ;-) )</sub></sup>
 
 Note: The toggle will kill all (mobile) biters, as their "peacefulness" is set when they spawn. Afaik, this can't be updated.
 
@@ -24,3 +27,41 @@ Note: The toggle will kill all (mobile) biters, as their "peacefulness" is set w
 # Notes
 
 This mod should work with some modded biter factions, as long as their force's name starts with "biter_faction_". If there are modded factions this doesn't work with, please let me know!
+
+# Development
+
+## Running from source
+
+Link the repository into Factorio's mods folder; the folder name must match the mod name (`TogglePeacefulMode`):
+
+```powershell
+# Windows (junction, no admin rights needed)
+New-Item -ItemType Junction -Path "$env:APPDATA\Factorio\mods\TogglePeacefulMode" -Target "C:\path\to\this\repo"
+```
+
+```sh
+# Linux / macOS
+ln -s /path/to/this/repo ~/.factorio/mods/TogglePeacefulMode
+```
+
+Factorio picks the mod up on the next start. Control-stage changes (`tpm/`) need a save reload; data-stage changes (`prototypes/`, `info.json`) need a game restart.
+
+## Linting and packaging
+
+- `luacheck .` — configuration in `.luacheckrc`. Runs in CI on every push and pull request.
+- `scripts/package.sh` — builds `dist/TogglePeacefulMode_<version>.zip` exactly as it will be released. Needs `jq` and `zip` (or `python3` as a fallback for both).
+
+## Releasing
+
+Releases are automated. Old release zips are on the [Releases](https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode/releases) page.
+
+1. Bump `version` in `info.json`.
+2. Add a matching `Version: x.y.z` block at the top of `changelog.txt` ([format](https://lua-api.factorio.com/latest/auxiliary/changelog-format.html)).
+3. Commit, then tag and push the tag:
+
+   ```sh
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+
+The [release workflow](.github/workflows/release.yml) verifies that the tag matches `info.json`, packages the mod, creates a GitHub Release with that version's changelog section as notes, and uploads the zip to the [mod portal](https://mods.factorio.com/mod/TogglePeacefulMode).
