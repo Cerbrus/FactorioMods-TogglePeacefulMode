@@ -1,4 +1,17 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.4.0
+Date: 2026-09-04
+  Compatibility:
+    - Updated for Factorio 2.1.
+  Bugfixes:
+    - The peaceful state is now remembered and applied to surfaces created later, so Space Age planets
+      and space platforms visited after toggling get the right setting without a second click (#12).
+    - The toggle button now updates for every player in multiplayer, not only the one who clicked (#9).
+  Changes:
+    - Toggling announces the new state and who toggled it in chat.
+  Info:
+    - Demolishers on Vulcanus are never killed by the toggle; unlike biters they do not respawn.
+---------------------------------------------------------------------------------------------------
 Version: 0.3.2
 Date: 2024-10-21
   Compatibility:
