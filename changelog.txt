@@ -1,0 +1,62 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.3.2
+Date: 2024-10-21
+  Compatibility:
+    - Updated for Factorio 2.0. Untested with Space Age planets.
+---------------------------------------------------------------------------------------------------
+Version: 0.3.1
+Date: 2021-03-31
+  Bugfixes:
+    - Fixed "Gui element with name tpm-button already present" when adding the mod to an existing save (#7).
+---------------------------------------------------------------------------------------------------
+Version: 0.3.0
+Date: 2021-03-30
+  Gui:
+    - Moved the toggle button to the mod-gui button flow (thanks Higgs1).
+  Optimizations:
+    - Removed a redundant force lookup when resetting biters.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 2020-12-21
+  Compatibility:
+    - Added support for modded biter factions whose force name starts with "biter_faction_".
+---------------------------------------------------------------------------------------------------
+Version: 0.2.1
+Date: 2020-11-27
+  Compatibility:
+    - Updated for Factorio 1.1.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.0
+Date: 2020-10-08
+  Compatibility:
+    - Updated for Factorio 1.0.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.5
+Date: 2020-01-28
+  Info:
+    - Added a mod thumbnail.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.4
+Date: 2020-01-28
+  Compatibility:
+    - Updated for Factorio 0.18 (thanks Joery).
+---------------------------------------------------------------------------------------------------
+Version: 0.1.3
+Date: 2019-03-08
+  Compatibility:
+    - Updated for Factorio 0.17 (thanks jonfairbanks).
+---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 2018-01-07
+  Compatibility:
+    - Updated for Factorio 0.16.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2017-05-02
+  Compatibility:
+    - Updated for Factorio 0.15.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.0
+Date: 2017-01-07
+  Major Features:
+    - Initial release: toggle peaceful mode on all surfaces with a button, without disabling achievements.
