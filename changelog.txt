@@ -10,7 +10,8 @@ Date: 2026-09-04
   Changes:
     - Toggling announces the new state and who toggled it in chat.
   Info:
-    - Demolishers on Vulcanus are never killed by the toggle; unlike biters they do not respawn.
+    - Demolishers on Vulcanus are never killed by the toggle; unlike biters they do not respawn. They follow
+      the setting live anyway, except that an attack already in progress is finished.
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.2
 Date: 2024-10-21
