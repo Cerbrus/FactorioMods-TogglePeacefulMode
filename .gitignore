@@ -1,7 +1,8 @@
-# Build / packaging output (release zips live in GitHub Releases, see #14)
+# Build / packaging output (scripts/package.sh; release zips live in GitHub Releases)
 /build/
 /dist/
 /*.zip
+/_releases/
 
 # Lua tooling
 .luacheckcache
