@@ -9,7 +9,7 @@ Normally, toggling peaceful mode through a lua command disables achievements for
 `/c game.player.surface.peaceful_mode = true / false`
 This mod lets you circumvent that.
 
-If you disable the mod, the "peaceful" setting will still be what it was last set to. This allows you to disable "peaceful" mode while keeping steam achievements enabled for non-modded games.
+**About achievements:** this only keeps Factorio's *in-game* achievements enabled. Steam achievements are disabled by Factorio whenever any mod is active, and this mod is no exception. If you want Steam achievements, toggle peaceful mode with this mod, then disable the mod again: the "peaceful" setting stays what it was last set to, and the save is unmodded again.
 
 The mod shouldn't corrupt your save, but as always, back-up first.
 <sup><sub>(The author of this mod can't be held responsible for corrupted saves ;-) )</sub></sup>
