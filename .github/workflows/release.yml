@@ -41,7 +41,9 @@ jobs:
 
       - name: Package
         id: build
-        run: echo "zip=$(scripts/package.sh)" >> "$GITHUB_OUTPUT"
+        run: |
+          zip="$(bash scripts/package.sh)"
+          echo "zip=$zip" >> "$GITHUB_OUTPUT"
 
       - name: Extract release notes from changelog.txt
         run: |
