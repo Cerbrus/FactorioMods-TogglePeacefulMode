@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  lint:
+    name: Luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lunarmodules/luacheck@v1
+
+  validate:
+    name: Validate mod metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate info.json
+        run: |
+          jq empty info.json
+          for key in name version title author factorio_version dependencies; do
+            jq -e --arg k "$key" 'has($k)' info.json >/dev/null \
+              || { echo "::error file=info.json::missing required key '$key'"; exit 1; }
+          done
+          version="$(jq -r .version info.json)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] \
+            || { echo "::error file=info.json::version '$version' is not major.minor.patch"; exit 1; }
+          echo "version=$version" >> "$GITHUB_ENV"
+
+      - name: Validate changelog.txt has an entry for this version
+        run: |
+          grep -qx "Version: $version" changelog.txt \
+            || { echo "::error file=changelog.txt::no 'Version: $version' entry"; exit 1; }
+          # Separator lines must be exactly 99 dashes.
+          if grep -nE '^-{3,}$' changelog.txt | grep -vE ':-{99}$'; then
+            echo "::error file=changelog.txt::separator lines must be exactly 99 dashes"; exit 1
+          fi
+
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    needs: [lint, validate]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build zip
+        id: build
+        run: echo "zip=$(scripts/package.sh)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mod-zip
+          path: ${{ steps.build.outputs.zip }}
+          if-no-files-found: error

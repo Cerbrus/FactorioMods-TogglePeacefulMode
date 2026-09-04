@@ -25,13 +25,17 @@ Control-stage module layout under `tpm/`:
 
 `migrations/TogglePeacefulMode_0.3.0.lua` removes the pre-0.3.0 `player.gui.top` buttons and re-creates the `mod-gui` button. Add a new migration file (named `TogglePeacefulMode_<version>.lua`) when a version changes saved GUI state.
 
+## Linting and packaging
+
+- `luacheck .` — config in `.luacheckrc` (Factorio globals declared there; `tpm`, `mod_gui` and `storage` are the mod's own globals). CI runs this on every push/PR.
+- `scripts/package.sh` — builds `dist/TogglePeacefulMode_<version>.zip` with the exact file list that ships (the list is explicit in the script; add new top-level folders such as `locale/` there). Needs `jq` and `zip` or `python3`.
+
 ## Releasing
 
-Releases are committed to the repo under `_releases/`. The convention (see commit "* Release 0.3.2"):
+Releases are automated by `.github/workflows/release.yml`:
 
-1. Bump `version` in `info.json`.
-2. Copy the mod files (`info.json`, `control.lua`, `data.lua`, `README.md`, `thumbnail.png`, `graphics/`, `migrations/`, `prototypes/`, `tpm/`) into `_releases/TogglePeacefulMode_<version>/` (`_releases/CreateFolder.bat` just creates that folder).
-3. Zip that folder to `_releases/TogglePeacefulMode_<version>.zip` — the zip must contain the `TogglePeacefulMode_<version>/` directory at its root, as Factorio requires.
-4. Commit as `* Release <version>`.
+1. Bump `version` in `info.json` and add a matching `Version: x.y.z` block at the top of `changelog.txt` (Factorio changelog format: 99-dash separators, `  Category:` lines, `    - entry` lines).
+2. Commit, tag `vX.Y.Z`, push the tag.
+3. The workflow verifies tag == `info.json` version, packages, creates a GitHub Release (notes = that changelog section, zip attached) and uploads the zip to the mod portal using the `FACTORIO_API_KEY` secret.
 
-Never edit files inside `_releases/`; they are frozen snapshots.
+Historic zips (0.1.0–0.3.2) live on the GitHub Releases page; `_releases/` is gone and gitignored.
