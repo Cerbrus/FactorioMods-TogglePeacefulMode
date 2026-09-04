@@ -6,41 +6,55 @@ if not tpm.gui then error("Dependency missing: tpm.gui") end
 script.on_event(defines.events.on_gui_click, function(event)
   tpm.debug("Event: on_gui_click")
 
-  if (event.element.name == "tpm-button") then
-    local previousState = tpm.is_peaceful()
+  if event.element.name == "tpm-button" then
     local player = game.players[event.player_index]
+    local peaceful = not tpm.is_peaceful()
 
-    mod_gui.get_button_flow(player)["tpm-button"].sprite =
-      previousState and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
-
-    tpm.set_peaceful(not previousState)
+    tpm.set_peaceful(peaceful)
     tpm.reset_biters()
+
+    game.print(player.name .. " turned peaceful mode " .. (peaceful and "on" or "off") .. ".")
   end
 end)
 
---[[ Check peaceful mode ]]--
-function tpm.is_peaceful()
-  tpm.debug("Function call: is_peaceful")
-
-  local is_peaceful = true
-
-  for _, s in pairs(game.surfaces) do
-    is_peaceful = is_peaceful and s.peaceful_mode
+--[[ Derive the peaceful state from the surfaces that currently exist.
+     Only used when the mod has no stored state yet (first install). ]]--
+function tpm.surfaces_peaceful()
+  for _, surface in pairs(game.surfaces) do
+    if not surface.peaceful_mode then return false end
   end
-
-  return is_peaceful
+  return true
 end
 
---[[ Set peaceful mode ]]--
+--[[ Check peaceful mode. `storage.peaceful` is the single source of truth. ]]--
+function tpm.is_peaceful()
+  if storage.peaceful == nil then
+    storage.peaceful = tpm.surfaces_peaceful()
+  end
+  return storage.peaceful
+end
+
+--[[ Apply the stored peaceful state to every existing surface ]]--
+function tpm.apply_peaceful()
+  local peaceful = tpm.is_peaceful()
+  for _, surface in pairs(game.surfaces) do
+    surface.peaceful_mode = peaceful
+  end
+end
+
+--[[ Set peaceful mode on all surfaces and update every player's button ]]--
 function tpm.set_peaceful(peaceful)
   tpm.debug("Function call: set_peaceful")
 
-  for _, s in pairs(game.surfaces) do
-    s.peaceful_mode = peaceful
-  end
+  storage.peaceful = peaceful
+  tpm.apply_peaceful()
+  tpm.gui.update_all()
 end
 
---[[ Reset biters to be peaceful / hostile (Kill all) ]]--
+--[[ Reset biters to be peaceful / hostile (Kill all).
+     Units (biters, spitters, pentapods) keep the peacefulness they spawned with, so they are
+     killed and respawn from their spawners with the new setting.
+     Demolishers (segmented-unit) are deliberately left alone: they never respawn. ]]--
 function tpm.reset_biters()
   tpm.debug("Function call: reset_biters")
 
