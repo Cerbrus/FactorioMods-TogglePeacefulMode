@@ -55,6 +55,16 @@ ln -s /path/to/this/repo ~/.factorio/mods/TogglePeacefulMode
 
 Factorio picks the mod up on the next start. Control-stage changes (`tpm/`) need a save reload; data-stage changes (`prototypes/`, `info.json`) need a game restart.
 
+On Windows, `scripts/dev-link.ps1` switches between the working copy and the released version (Factorio must not be running):
+
+```powershell
+scripts/dev-link.ps1 on      # junction to this repo; parks any portal zip as *.zip.off
+scripts/dev-link.ps1 off     # removes the junction; restores the portal zip, or disables the mod if there is none
+scripts/dev-link.ps1 status
+```
+
+After `off` without a zip present, install the released version from the in-game mod portal as usual.
+
 ## Linting and packaging
 
 - `luacheck .` — configuration in `.luacheckrc`. Runs in CI on every push and pull request.
