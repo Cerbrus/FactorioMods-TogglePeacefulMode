@@ -58,6 +58,7 @@ Factorio picks the mod up on the next start. Control-stage changes (`tpm/`) need
 On Windows, `scripts/dev-link.ps1` switches between the working copy and the released version (Factorio must not be running):
 
 ```powershell
+scripts/dev-link.ps1         # shows the current mode and asks which one to switch to
 scripts/dev-link.ps1 on      # junction to this repo; parks any portal zip as *.zip.off
 scripts/dev-link.ps1 off     # removes the junction; restores the portal zip, or disables the mod if there is none
 scripts/dev-link.ps1 status

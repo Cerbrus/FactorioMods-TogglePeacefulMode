@@ -11,6 +11,8 @@
           Install the released version from the in-game mod portal if no zip is present.
   status  Show what is currently active.
 
+  Without a parameter: shows the status and asks which mode to switch to.
+
   Factorio must not be running while switching; it reads the mods folder at startup.
 
 .PARAMETER ModsDir
@@ -24,8 +26,8 @@
 [CmdletBinding()]
 param(
   [Parameter(Position = 0)]
-  [ValidateSet('on', 'off', 'status')]
-  [string]$Action = 'status',
+  [ValidateSet('on', 'off', 'status', '')]
+  [string]$Action = '',
 
   [string]$ModsDir = (Join-Path $env:APPDATA 'Factorio\mods')
 )
@@ -80,6 +82,21 @@ function Show-Status {
   if ($parked) { Write-Host "parked:    $($parked.Name -join ', ')" }
   if ($entry) { Write-Host "mod-list:  enabled = $($entry.enabled)" } else { Write-Host 'mod-list:  no entry' }
   Write-Host "repo:      $modName $($info.version) at $repoRoot"
+}
+
+if (-not $Action) {
+  Show-Status
+  $isDev = [bool](Get-Junction)
+  $target = if ($isDev) { 'off' } else { 'on' }
+  $label = if ($isDev) { '&Released version (remove junction)' } else { '&Dev working copy (create junction)' }
+  $choices = [System.Management.Automation.Host.ChoiceDescription[]]@(
+    New-Object System.Management.Automation.Host.ChoiceDescription $label, "Switch to '$target'"
+    New-Object System.Management.Automation.Host.ChoiceDescription '&Quit', 'Change nothing'
+  )
+  $picked = $Host.UI.PromptForChoice('', 'Switch to:', $choices, 1)
+  if ($picked -ne 0) { return }
+  $Action = $target
+  Write-Host ''
 }
 
 switch ($Action) {
