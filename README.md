@@ -67,3 +67,7 @@ Releases are automated. Old release zips are on the [Releases](https://github.co
    ```
 
 The [release workflow](.github/workflows/release.yml) verifies that the tag matches `info.json`, packages the mod, creates a GitHub Release with that version's changelog section as notes, and uploads the zip to the [mod portal](https://mods.factorio.com/mod/TogglePeacefulMode).
+
+## Mod portal page
+
+The portal page text is not the README: it comes from `portal/description.md` (long description), and from `info.json` (`title`, `description` as the short summary, `homepage`). The [portal details workflow](.github/workflows/portal-details.yml) pushes these to the portal whenever they change on `master`, and every release does the same. Edit the files, don't edit the portal page by hand.

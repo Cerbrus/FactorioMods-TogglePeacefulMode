@@ -88,10 +88,18 @@ jobs:
         env:
           FACTORIO_API_KEY: ${{ secrets.FACTORIO_API_KEY }}
           MOD_NAME: ${{ steps.meta.outputs.name }}
+          VERSION: ${{ steps.meta.outputs.version }}
           ZIP: ${{ steps.build.outputs.zip }}
         run: |
           if [ -z "$FACTORIO_API_KEY" ]; then
             echo "::warning::FACTORIO_API_KEY secret not set; skipping mod portal upload"
+            exit 0
+          fi
+
+          # Re-runs: the portal rejects duplicate versions, so skip if this one is already up.
+          if curl -sSf "https://mods.factorio.com/api/mods/$MOD_NAME" \
+              | jq -e --arg v "$VERSION" 'any(.releases[]; .version == $v)' >/dev/null; then
+            echo "$MOD_NAME $VERSION is already on the mod portal; skipping upload"
             exit 0
           fi
 
@@ -114,3 +122,13 @@ jobs:
           post "$upload_url" -F "file=@$ZIP"
           echo "$body" | jq .
           echo "Uploaded $ZIP to https://mods.factorio.com/mod/$MOD_NAME"
+
+      - name: Sync mod portal page details
+        env:
+          FACTORIO_API_KEY: ${{ secrets.FACTORIO_API_KEY }}
+        run: |
+          if [ -z "$FACTORIO_API_KEY" ]; then
+            echo "::warning::FACTORIO_API_KEY secret not set; skipping portal details sync"
+            exit 0
+          fi
+          bash scripts/portal-edit-details.sh

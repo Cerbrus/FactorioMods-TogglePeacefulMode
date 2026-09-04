@@ -44,3 +44,7 @@ Releases are automated by `.github/workflows/release.yml`:
 4. If the portal upload fails, fix the cause (usually the secret) and re-run via Actions → Release → "Run workflow" with the existing tag; the GitHub Release step is skipped when the release already exists. The portal returns HTTP 400 with `InvalidApiKey` for a missing or wrong key.
 
 Historic zips (0.1.0–0.3.2) live on the GitHub Releases page; `_releases/` is gone and gitignored.
+
+## Mod portal page text
+
+`portal/description.md` is the portal's long description; `info.json` `title`/`description`/`homepage` feed the portal title, summary (max 500 chars) and homepage. `scripts/portal-edit-details.sh` pushes them via the `edit_details` API (key needs the "ModPortal: Edit Mods" usage); it runs from `portal-details.yml` on master pushes touching those files and at the end of every release. Never edit the portal page by hand; change these files. `portal/` is not packaged into the mod zip.

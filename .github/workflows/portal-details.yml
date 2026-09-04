@@ -1,0 +1,26 @@
+name: Portal details
+
+# Keeps the mod portal page (description, title, summary, homepage, source URL) in sync with the repo.
+# Runs when the sources change on master, and can be triggered by hand. The release workflow runs
+# the same script after uploading a new version.
+#
+# Requires the FACTORIO_API_KEY secret to carry the "ModPortal: Edit Mods" usage.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - portal/description.md
+      - info.json
+      - scripts/portal-edit-details.sh
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update mod portal details
+        env:
+          FACTORIO_API_KEY: ${{ secrets.FACTORIO_API_KEY }}
+        run: bash scripts/portal-edit-details.sh
