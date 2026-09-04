@@ -14,7 +14,9 @@ This mod lets you circumvent that.
 The mod shouldn't corrupt your save, but as always, back-up first.
 <sup><sub>(The author of this mod can't be held responsible for corrupted saves ;-) )</sub></sup>
 
-Note: The toggle will kill all (mobile) biters, as their "peacefulness" is set when they spawn. Afaik, this can't be updated.
+Note: The toggle will kill all (mobile) biters, spitters and Gleba pentapods, as their "peacefulness" is set when they spawn. They respawn from their spawners with the new setting.
+
+Demolishers on Vulcanus are **never** killed by this mod: they do not respawn, so killing them would remove them from the planet for good. Peaceful mode is applied to every surface, including planets you visit after toggling, so demolishers on a planet you land on later spawn with the current setting.
 
 # How to Use
 
