@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.5.0
+Date: 2026-09-04
+  Gui:
+    - The top-left button is replaced by a toggle in the shortcut bar (next to the blueprint tools).
+      Its highlighted state shows the current mode for every player.
+    - Added an unbound hotkey (Settings → Controls → Mods) that does the same as the button.
+    - Peaceful mode can also be flipped from Mod Settings → Map; the setting always mirrors the state.
+  Changes:
+    - In multiplayer only admins can toggle by default. Map setting "Only admins can toggle peaceful mode"
+      opens it up to everyone.
+    - All messages are localised.
+---------------------------------------------------------------------------------------------------
 Version: 0.4.0
 Date: 2026-09-04
   Compatibility:

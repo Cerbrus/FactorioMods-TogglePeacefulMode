@@ -1,1 +1,1 @@
-require("prototypes.style")
+require("prototypes.shortcut")

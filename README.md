@@ -24,11 +24,18 @@ Demolishers on Vulcanus are **never** killed by this mod: they do not respawn, s
 2. Open the "Mod" menu.
 3. Search for the "Toggle Peaceful Mode" mod.
 4. Install the mod.
-5. Use the button on the top-left to toggle peaceful mode at will.
+5. Use the toggle in the **shortcut bar** (bottom of the screen, next to the blueprint tools). It lights up while peaceful mode is on.
+
+Alternatives:
+
+- Bind a hotkey under Settings → Controls → Mods → "Toggle peaceful mode".
+- Flip the "Peaceful mode" setting under Mod Settings → Map. It always mirrors the current state.
 
 # Notes
 
-This mod should work with some modded biter factions, as long as their force's name starts with "biter_faction_". If there are modded factions this doesn't work with, please let me know!
+- In multiplayer, only admins can toggle by default. Disable "Only admins can toggle peaceful mode" under Mod Settings → Map to let everyone do it.
+- Every toggle is announced in chat with the name of the player who did it.
+- This mod should work with some modded biter factions, as long as their force's name starts with "biter_faction_". If there are modded factions this doesn't work with, please let me know!
 
 # Development
 

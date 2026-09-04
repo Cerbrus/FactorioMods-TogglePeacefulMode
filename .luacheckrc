@@ -14,7 +14,7 @@ exclude_files = {
 -- Factorio runtime API (read-only)
 read_globals = {
   -- data stage
-  "data", "mods", "settings",
+  "data", "mods",
   -- control stage
   "game", "script", "defines", "remote", "commands", "rendering", "rcon",
   "helpers", "prototypes",
@@ -26,8 +26,8 @@ read_globals = {
 -- Globals this mod defines itself
 globals = {
   "storage",   -- Factorio's persistent mod table (2.0)
+  "settings",  -- settings.global[...] is written to in tpm/state.lua
   "tpm",       -- mod namespace, created in tpm/core.lua
-  "mod_gui",   -- assigned from require("mod-gui") in tpm/gui/*.lua
 }
 
 files["migrations/*.lua"] = {

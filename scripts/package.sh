@@ -54,6 +54,7 @@ copy() { # copy <path>  (file or directory, relative to repo root)
 copy info.json
 copy control.lua
 copy data.lua
+copy settings.lua
 copy changelog.txt
 copy README.md
 copy thumbnail.png
@@ -64,7 +65,7 @@ copy prototypes
 copy tpm
 
 # Source assets are not needed in-game.
-find "build/$folder" -name '*.psd' -delete
+find "build/$folder" \( -name '*.psd' -o -name '*.svg' \) -delete
 
 (
   cd build

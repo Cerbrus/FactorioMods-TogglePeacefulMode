@@ -4,30 +4,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A Factorio 2.0 mod (`TogglePeacefulMode`) written in Lua. It adds a `mod-gui` button that toggles `peaceful_mode` on every surface without disabling achievements. Toggling also kills all mobile enemy units (via `force.kill_all_units()`), because a biter's peacefulness is fixed at spawn.
+A Factorio 2.1 mod (`TogglePeacefulMode`) written in Lua. It adds a shortcut-bar toggle (plus an unbound hotkey and a map setting) that flips `peaceful_mode` on every surface without disabling in-game achievements. Toggling also kills all mobile enemy units (via `force.kill_all_units()`), because a biter's peacefulness is fixed at spawn.
 
-There is no build system, linter, or test suite. The mod is plain Lua loaded by Factorio; the only way to test is to install it into Factorio's `mods/` folder and run the game (`_releases/mods.lnk` is a shortcut to that folder).
+There is no test suite. The mod is plain Lua loaded by Factorio; test by linking the repo into Factorio's `mods/` folder (see README) and running the game. Local Factorio is 2.1.
 
 ## Architecture
 
-Factorio loads mods in two separate stages, and the repo is split accordingly:
+Factorio loads mods in three stages, and the repo is split accordingly:
 
-- **Data stage** (`data.lua` → `prototypes/style.lua`): registers the two `sprite` prototypes (`tpm_button_sprite_peace` / `tpm_button_sprite_war`) that the button uses. Referenced via `__TogglePeacefulMode__/graphics/*.png`.
-- **Control stage** (`control.lua` → `tpm/core.lua`): all runtime logic. Everything hangs off a single global table `tpm`, which `tpm/core.lua` creates first (`tpm = { showDebug = false }`) and every other file asserts exists before running.
+- **Settings stage** (`settings.lua`): two `runtime-global` bool settings, `tpm-peaceful` (mirror of the state, so Mod Settings → Map can toggle it) and `tpm-admin-only` (default true).
+- **Data stage** (`data.lua` → `prototypes/shortcut.lua`): the `shortcut` prototype `tpm-toggle-peaceful` (`action = "lua"`, `toggleable`, 32px `icon` + 24px `small_icon` from `graphics/`) and a `custom-input` of the same name (unbound).
+- **Control stage** (`control.lua` → `tpm/core.lua`): all runtime logic. Everything hangs off a single global table `tpm`, which `tpm/core.lua` creates first and every other file asserts exists before running.
 
-State: `storage.peaceful` (Factorio's persistent mod table) is the single source of truth. `tpm.is_peaceful()` reads it (deriving it from existing surfaces once if unset), `tpm.set_peaceful()` writes it and pushes it to all surfaces, and `on_surface_created` applies it to surfaces created later (Space Age planets and platforms are created lazily on first visit). Never derive state from surfaces except through `tpm.surfaces_peaceful()` on first install.
+State: `storage.peaceful` (Factorio's persistent mod table) is the single source of truth. `tpm.is_peaceful()` reads it (deriving it from existing surfaces once if unset), `tpm.set_peaceful(bool, player)` writes it and then pushes it everywhere: all surfaces, the `tpm-peaceful` setting, every player's shortcut toggled state, plus the enemy reset and a chat announcement. `on_surface_created` applies it to surfaces created later (Space Age planets and platforms are created lazily on first visit). Never derive state from surfaces except through `tpm.surfaces_peaceful()` on first install.
+
+The setting mirror is two-way: `on_runtime_mod_setting_changed` calls `set_peaceful` when `tpm-peaceful` differs from the stored state, and `tpm.sync_setting()` writes the setting after every change. The handler is a no-op when they already agree, which is what prevents a loop.
 
 Design constraint: the toggle must never kill demolishers (`segmented-unit`); they do not respawn. Only `force.kill_all_units()` (unit type) is used to reset enemies.
 
 Control-stage module layout under `tpm/`:
 
-- `core.lua` – creates `tpm`, requires `logger` and `gui`, and registers `on_init`, `on_configuration_changed`, `on_surface_created` and `on_player_created`.
-- `gui.lua` – creates `tpm.gui` and requires `gui/layout.lua` and `gui/events.lua`. Note the `require` paths here are relative (`"gui.layout"`), whereas `control.lua` / `core.lua` use `"tpm.xxx"`.
-- `gui/layout.lua` – `tpm.gui.init(player, peaceful)`: adds the `tpm-button` sprite-button to `mod_gui.get_button_flow(player)`, returning the existing one if already present (fix for duplicate buttons). `tpm.gui.update_all()` syncs every player's sprite to the stored state.
-- `gui/events.lua` – `on_gui_click` handler plus the game-state functions `tpm.is_peaceful()`, `tpm.set_peaceful(bool)`, `tpm.apply_peaceful()`, `tpm.surfaces_peaceful()` and `tpm.reset_biters()` (kills units of `enemy` and any force whose name starts with `biter_faction_`).
+- `core.lua` – creates `tpm`, requires the others, registers all events: `on_init`, `on_configuration_changed`, `on_surface_created`, player created/joined/promoted/demoted (shortcut sync), `on_lua_shortcut`, the custom input, `on_runtime_mod_setting_changed`.
+- `state.lua` – `surfaces_peaceful`, `is_peaceful`, `apply_peaceful`, `sync_setting`, `can_toggle(player)` (admin or setting), `request_toggle(player)` (permission check + toggle), `set_peaceful`, `reset_biters`.
+- `shortcut.lua` – `tpm.shortcut.sync(player)` sets toggled state and availability (`set_shortcut_available` = `can_toggle`); `sync_all()` for every player.
 - `logger.lua` – `tpm.log` (print to all players) and `tpm.debug` (only when `tpm.showDebug` is true; also writes `tpm.txt` via `game.write_file`).
 
-`migrations/TogglePeacefulMode_0.3.0.lua` removes the pre-0.3.0 `player.gui.top` buttons and re-creates the `mod-gui` button. Add a new migration file (named `TogglePeacefulMode_<version>.lua`) when a version changes saved GUI state.
+`locale/en/tpm.cfg` holds the shortcut, control and setting names plus the `[tpm]` messages. `migrations/TogglePeacefulMode_0.5.0.lua` removes the pre-0.5.0 GUI buttons (mod-gui and the even older top-bar ones). Add a new migration file (named `TogglePeacefulMode_<version>.lua`) when a version changes saved GUI state; migrations must not `require` control-stage modules.
 
 ## Linting and packaging
 
