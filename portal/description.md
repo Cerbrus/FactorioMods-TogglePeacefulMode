@@ -13,6 +13,12 @@ This mod lets you circumvent that.
 The mod shouldn't corrupt your save, but as always, back-up first.
 (The author of this mod can't be held responsible for corrupted saves ;-) )
 
+## How to use
+
+Use the toggle in the **shortcut bar** (bottom of the screen, next to the blueprint tools). It lights up while peaceful mode is on. You can also bind a hotkey (Settings → Controls → Mods) or flip the "Peaceful mode" setting under Mod Settings → Map.
+
+In multiplayer only admins can toggle by default; the map setting "Only admins can toggle peaceful mode" opens it up to everyone.
+
 ## Notes
 
 - The toggle kills all mobile biters, spitters and Gleba pentapods, as their "peacefulness" is set when they spawn. They respawn from their spawners with the new setting.
