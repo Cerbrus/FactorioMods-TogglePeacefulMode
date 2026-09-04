@@ -52,8 +52,6 @@ end
 --[[ Set peaceful mode everywhere, reset enemies, and tell everyone.
      `player` is who did it (nil when changed from the server console). ]]--
 function tpm.set_peaceful(peaceful, player)
-  tpm.debug("Function call: set_peaceful")
-
   storage.peaceful = peaceful
   tpm.apply_peaceful()
   tpm.reset_biters()
@@ -74,8 +72,6 @@ end
      Demolishers (segmented-unit) are deliberately left alone: they never respawn, and they
      follow the surface setting live anyway. ]]--
 function tpm.reset_biters()
-  tpm.debug("Function call: reset_biters")
-
   --[[ Some mods introduce biter factions. Kill'm! ]]--
   for _, force in pairs(game.forces) do
     if force.name:find("biter_faction_") == 1 then

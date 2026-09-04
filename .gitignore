@@ -2,7 +2,6 @@
 /build/
 /dist/
 /*.zip
-/_releases/
 
 # Lua tooling
 .luacheckcache
@@ -21,6 +20,3 @@ desktop.ini
 
 # Claude Code local settings
 .claude/settings.local.json
-
-# Factorio debug output written by tpm.debug (game.write_file goes to script-output, but keep local copies out)
-tpm.txt

@@ -56,7 +56,6 @@ copy control.lua
 copy data.lua
 copy settings.lua
 copy changelog.txt
-copy README.md
 copy thumbnail.png
 copy graphics
 copy locale
