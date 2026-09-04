@@ -9,6 +9,6 @@ function tpm.gui.init(player, peaceful)
     type = "sprite-button",
     name = "tpm-button",
     style = "mod_gui_button",
-    sprite = tpm.is_peaceful() and "tpm_button_sprite_peace" or "tpm_button_sprite_war"
+    sprite = peaceful and "tpm_button_sprite_peace" or "tpm_button_sprite_war"
   }
 end

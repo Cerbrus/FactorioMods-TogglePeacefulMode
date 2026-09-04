@@ -9,12 +9,12 @@ script.on_event(defines.events.on_gui_click, function(event)
   if (event.element.name == "tpm-button") then
     local previousState = tpm.is_peaceful()
     local player = game.players[event.player_index]
-    
-		mod_gui.get_button_flow(game.players[event.player_index])["tpm-button"].sprite = 
-		  previousState and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
+
+    mod_gui.get_button_flow(player)["tpm-button"].sprite =
+      previousState and "tpm_button_sprite_war" or "tpm_button_sprite_peace"
 
     tpm.set_peaceful(not previousState)
-    tpm.reset_biters(event)
+    tpm.reset_biters()
   end
 end)
 
@@ -22,26 +22,26 @@ end)
 function tpm.is_peaceful()
   tpm.debug("Function call: is_peaceful")
 
-  local is_peaceful = true;
+  local is_peaceful = true
 
-  for _,s in pairs(game.surfaces) do
+  for _, s in pairs(game.surfaces) do
     is_peaceful = is_peaceful and s.peaceful_mode
   end
 
-  return is_peaceful;
+  return is_peaceful
 end
 
 --[[ Set peaceful mode ]]--
 function tpm.set_peaceful(peaceful)
   tpm.debug("Function call: set_peaceful")
 
-  for _,s in pairs(game.surfaces) do
-    s.peaceful_mode = peaceful;
+  for _, s in pairs(game.surfaces) do
+    s.peaceful_mode = peaceful
   end
 end
 
 --[[ Reset biters to be peaceful / hostile (Kill all) ]]--
-function tpm.reset_biters(event)
+function tpm.reset_biters()
   tpm.debug("Function call: reset_biters")
 
   --[[ Some mods introduce biter factions. Kill'm! ]]--

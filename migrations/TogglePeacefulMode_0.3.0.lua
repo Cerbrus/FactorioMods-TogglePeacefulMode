@@ -9,5 +9,5 @@ for _, player in pairs(game.players) do
   local warButton = player.gui.top["tpm_mainbutton_war"]
   if warButton then warButton.destroy() end
   
-	tpm.gui.init(player, peaceful)
+  tpm.gui.init(player, peaceful)
 end
