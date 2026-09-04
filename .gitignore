@@ -1,0 +1,25 @@
+# Build / packaging output (release zips live in GitHub Releases, see #14)
+/build/
+/dist/
+/*.zip
+
+# Lua tooling
+.luacheckcache
+.luarc.json
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Factorio debug output written by tpm.debug (game.write_file goes to script-output, but keep local copies out)
+tpm.txt
