@@ -1,12 +1,12 @@
 {
     "name": "TogglePeacefulMode",
-    "version": "0.3.2",
+    "version": "0.4.0",
     "title": "Toggle Peaceful Mode",
     "author": "Cerbrus",
     "contact": "https://github.com/Cerbrus",
     "homepage": "https://github.com/Cerbrus/FactorioMods-TogglePeacefulMode",
-    "description": "Allows you to toggle peaceful mode at will. NOTE: Untested with the new Space Age worlds! This may break everything, or it may just work. Please let me know!",
+    "description": "Allows you to toggle peaceful mode at will, on every surface (Space Age planets included), while keeping in-game achievements enabled.",
     "license": "Free for all",
-    "factorio_version": "2.0",
+    "factorio_version": "2.1",
     "dependencies": []
 }
