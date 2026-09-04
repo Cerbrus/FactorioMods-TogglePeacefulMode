@@ -3,12 +3,24 @@ tpm = { showDebug = false }
 require "tpm.logger"
 require "tpm.gui"
 
---[[ On mod init ]]--
+--[[ On mod init (new game, or mod added to an existing save) ]]--
 script.on_init(function()
-  local peaceful = tpm.is_peaceful()
+  storage.peaceful = tpm.surfaces_peaceful()
   for _, player in pairs(game.players) do
-    tpm.gui.init(player, peaceful)
+    tpm.gui.init(player, storage.peaceful)
   end
+end)
+
+--[[ Mod or game version changed: make sure the stored state exists and every surface matches it ]]--
+script.on_configuration_changed(function()
+  tpm.apply_peaceful()
+  tpm.gui.update_all()
+end)
+
+--[[ Planet surfaces and space platforms are only created when first visited.
+     Apply the stored state so they don't fall back to the map-gen default. ]]--
+script.on_event(defines.events.on_surface_created, function(event)
+  game.surfaces[event.surface_index].peaceful_mode = tpm.is_peaceful()
 end)
 
 --[[ When a player joins ]]--
