@@ -41,5 +41,6 @@ Releases are automated by `.github/workflows/release.yml`:
 1. Bump `version` in `info.json` and add a matching `Version: x.y.z` block at the top of `changelog.txt` (Factorio changelog format: 99-dash separators, `  Category:` lines, `    - entry` lines).
 2. Commit, tag `vX.Y.Z`, push the tag.
 3. The workflow verifies tag == `info.json` version, packages, creates a GitHub Release (notes = that changelog section, zip attached) and uploads the zip to the mod portal using the `FACTORIO_API_KEY` secret.
+4. If the portal upload fails, fix the cause (usually the secret) and re-run via Actions → Release → "Run workflow" with the existing tag; the GitHub Release step is skipped when the release already exists. The portal returns HTTP 400 with `InvalidApiKey` for a missing or wrong key.
 
 Historic zips (0.1.0–0.3.2) live on the GitHub Releases page; `_releases/` is gone and gitignored.

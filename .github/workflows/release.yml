@@ -6,28 +6,42 @@ name: Release
 #   3. This workflow packages the mod, creates a GitHub Release with the changelog
 #      section as notes, and uploads the zip to the Factorio mod portal.
 #
+# Re-running for an existing tag (e.g. the portal upload failed): Actions → Release → "Run workflow",
+# enter the tag. Steps that already succeeded (GitHub Release exists) are skipped.
+#
 # Requires the repository secret FACTORIO_API_KEY (factorio.com/profile, usage "ModPortal: Upload Mods").
 # Without it the portal upload step is skipped with a warning.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to (re)release, e.g. v0.4.0'
+        required: true
+        type: string
 
 permissions:
   contents: write
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - name: Verify tag matches info.json
         id: meta
         run: |
           name="$(jq -r .name info.json)"
           version="$(jq -r .version info.json)"
-          tag="${GITHUB_REF_NAME#v}"
+          tag="${TAG#v}"
           if [ "$version" != "$tag" ]; then
             echo "::error::tag v$tag does not match info.json version $version"; exit 1
           fi
@@ -62,7 +76,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "${{ steps.build.outputs.zip }}" \
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub Release $TAG already exists; skipping"
+            exit 0
+          fi
+          gh release create "$TAG" "${{ steps.build.outputs.zip }}" \
             --title "${{ steps.meta.outputs.name }} ${{ steps.meta.outputs.version }}" \
             --notes-file dist/release-notes.md
 
@@ -76,10 +94,23 @@ jobs:
             echo "::warning::FACTORIO_API_KEY secret not set; skipping mod portal upload"
             exit 0
           fi
-          upload_url="$(curl -sSf -X POST \
-            -H "Authorization: Bearer $FACTORIO_API_KEY" \
-            -F "mod=$MOD_NAME" \
-            https://mods.factorio.com/api/v2/mods/releases/init_upload \
-            | jq -er .upload_url)"
-          curl -sSf -X POST -F "file=@$ZIP" "$upload_url" | jq .
+
+          # POST and split the body from the status code; the portal returns its error
+          # (InvalidApiKey, UnknownMod, InvalidModRelease, ...) as JSON in the body.
+          post() { # post <url> <curl -F args...>
+            local url="$1"; shift
+            local response status
+            response="$(curl -sS -w $'\n%{http_code}' -X POST -H "Authorization: Bearer $FACTORIO_API_KEY" "$@" "$url")"
+            status="${response##*$'\n'}"
+            body="${response%$'\n'*}"
+            if [ "$status" != "200" ]; then
+              echo "::error::$url returned HTTP $status: $body"; exit 1
+            fi
+          }
+
+          post https://mods.factorio.com/api/v2/mods/releases/init_upload -F "mod=$MOD_NAME"
+          upload_url="$(jq -er .upload_url <<<"$body")"
+
+          post "$upload_url" -F "file=@$ZIP"
+          echo "$body" | jq .
           echo "Uploaded $ZIP to https://mods.factorio.com/mod/$MOD_NAME"
